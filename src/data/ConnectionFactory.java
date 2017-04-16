@@ -5,12 +5,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionFactory {
-    public static String DB_PATH = "database.db";
+    public final static String DB_PATH = "database.db";
+
+    private static Connection connection = null;
 
     public static Connection getConnection() throws SQLException {
-        Connection result = null;
-
-        result = DriverManager.getConnection(String.format("jdbc:sqlite:%s",DB_PATH));
-        return result;
+        if (connection == null) {
+            connection = DriverManager.getConnection(String.format("jdbc:sqlite:%s", DB_PATH));
+        }
+        return connection;
     }
 }

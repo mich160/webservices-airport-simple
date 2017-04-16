@@ -3,17 +3,27 @@ package data.entities;
 import java.time.LocalDateTime;
 
 public class Flight {
-    private LocalDateTime startTime;
+    private long ID;
+    private LocalDateTime startDateTime;
     private String fromWhere;
     private String toWhere;
     private int seatsCount;
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public long getID() {
+        return ID;
     }
 
-    public Flight setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public Flight setID(long ID) {
+        this.ID = ID;
+        return this;
+    }
+
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
+    }
+
+    public Flight setStartDateTime(LocalDateTime startDateTime) {
+        this.startDateTime = startDateTime;
         return this;
     }
 

@@ -3,7 +3,7 @@ package data.entities;
 public class Ticket {
     private long ID;
     private long flightID;
-    private long clientID;
+    private long userID;
     private long price;
     private String flightClass;
     private int seat;
@@ -26,12 +26,12 @@ public class Ticket {
         return this;
     }
 
-    public long getClientID() {
-        return clientID;
+    public long getUserID() {
+        return userID;
     }
 
-    public Ticket setClientID(long clientID) {
-        this.clientID = clientID;
+    public Ticket setUserID(long userID) {
+        this.userID = userID;
         return this;
     }
 
