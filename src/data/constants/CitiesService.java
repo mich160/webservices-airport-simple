@@ -16,7 +16,7 @@ public class CitiesService {
         toCities.add("New York");
         toCities.add("Moscow");
         toCities.add("Sydney");
-        toCities.add("Tokio");
+        toCities.add("Tokyo");
         toCities.add("Berlin");
         toCities.add("Paris");
         toCities.add("Madrid");

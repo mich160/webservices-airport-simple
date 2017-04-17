@@ -43,4 +43,14 @@ public class Session {
         this.expirationDateTime = expirationDateTime;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Session{" +
+                "ID=" + ID +
+                ", token='" + token + '\'' +
+                ", userID=" + userID +
+                ", expirationDateTime=" + expirationDateTime +
+                '}';
+    }
 }

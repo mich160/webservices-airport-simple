@@ -61,4 +61,16 @@ public class Ticket {
         this.seat = seat;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "ID=" + ID +
+                ", flightID=" + flightID +
+                ", userID=" + userID +
+                ", price=" + price +
+                ", flightClass='" + flightClass + '\'' +
+                ", seat=" + seat +
+                '}';
+    }
 }

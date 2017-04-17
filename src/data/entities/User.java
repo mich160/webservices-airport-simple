@@ -73,4 +73,17 @@ public class User {
         this.phoneNumber = phoneNumber;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "ID=" + ID +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", phoneNumber=" + phoneNumber +
+                ", login='" + login + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
+                '}';
+    }
 }

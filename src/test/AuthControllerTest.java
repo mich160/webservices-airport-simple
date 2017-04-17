@@ -1,13 +1,17 @@
 package test;
 
-import auth.AuthController;
+import controllers.AuthController;
 import auth.exceptions.BadCredentialsException;
+import auth.exceptions.LoginAlreadyTaken;
+import auth.exceptions.NoSuchUserException;
 import data.DataServiceContainer;
 import data.entities.User;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
@@ -69,7 +73,45 @@ public class AuthControllerTest {
     }
 
     @Test
+    void createUserTest(){
+        try {
+            AuthController authController = new AuthController(DataServiceContainer.getDataServiceContainer());
+            authController.createUser("test1", "pass", "Grazyna", "Nowak", LocalDate.now(), 53533532);
+            User newUser = DataServiceContainer.getDataServiceContainer().getUserService().getByLogin("test1");
+            System.out.println("Creating user test: ");
+            System.out.println(newUser);
+            assert newUser != null;
+            authController.deleteUser("test1", "pass");
+            newUser = DataServiceContainer.getDataServiceContainer().getUserService().getByLogin("test1");
+            assert newUser == null;
+        } catch (SQLException | NoSuchAlgorithmException | LoginAlreadyTaken | NoSuchUserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void createUserTestFail() throws NoSuchUserException {
+        try {
+            AuthController authController = new AuthController(DataServiceContainer.getDataServiceContainer());
+            Assertions.assertThrows(NoSuchUserException.class, ()->authController.deleteUser("none", "none"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     void renewSessionTest(){
-        //TODO
+        try {
+            AuthController authController = new AuthController(DataServiceContainer.getDataServiceContainer());
+            authController.setSessionLifespanInS(2);
+            String token = authController.createSession(LOGIN, PASSWORD_HASH);
+            assert authController.isSessionValid(token);
+            authController.setSessionLifespanInS(3600);
+            authController.renewSession(token);
+            Thread.sleep(3000);
+            assert authController.isSessionValid(token);
+        } catch (SQLException | BadCredentialsException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
