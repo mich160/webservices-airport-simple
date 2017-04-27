@@ -11,7 +11,7 @@ import java.time.temporal.ChronoUnit;
 
 public class CalendarUtilsTest {
     @Test
-    public void dateTimeTest(){
+    public void dateTimeTest() {
         LocalDateTime localDateTime = LocalDateTime.now();
         try {
             XMLGregorianCalendar xmlGregorianCalendar = CalendarUtils.localDateTimeToXMLGregorianCalendar(localDateTime);
@@ -24,7 +24,7 @@ public class CalendarUtilsTest {
     }
 
     @Test
-    public void dateTest(){
+    public void dateTest() {
         LocalDate localDate = LocalDate.now();
         try {
             XMLGregorianCalendar xmlGregorianCalendar = CalendarUtils.localDateToXMLGregorianCalendar(localDate);

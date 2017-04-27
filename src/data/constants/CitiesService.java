@@ -9,7 +9,7 @@ public class CitiesService {
     private Set<String> toCities;
     private Set<String> fromCities;
 
-    public CitiesService(){
+    public CitiesService() {
         toCities = new TreeSet<>();
         fromCities = new TreeSet<>();
         //TO CITIES

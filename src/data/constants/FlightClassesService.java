@@ -6,7 +6,7 @@ public class FlightClassesService {
     private Set<String> flightClasses;
     private HashMap<String, Double> pricesRates;
 
-    public FlightClassesService(){
+    public FlightClassesService() {
         flightClasses = new TreeSet<>();
 
         flightClasses.add("Business");
@@ -22,15 +22,15 @@ public class FlightClassesService {
         pricesRates.put("Economy", 1.0);
     }
 
-    public boolean flightClassExists(String flightClass){
+    public boolean flightClassExists(String flightClass) {
         return flightClasses.contains(flightClass);
     }
 
-    public List<String> getAllFlightClasses(){
+    public List<String> getAllFlightClasses() {
         return new ArrayList<>(flightClasses);
     }
 
-    public double getPriceRate(String flightClass){
+    public double getPriceRate(String flightClass) {
         return pricesRates.get(flightClass);
     }
 }

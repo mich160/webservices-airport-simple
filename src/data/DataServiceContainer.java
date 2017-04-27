@@ -14,7 +14,7 @@ public class DataServiceContainer {
     private static DataServiceContainer dataServiceContainer;
 
     public static DataServiceContainer getDataServiceContainer() throws SQLException {
-        if(dataServiceContainer == null){
+        if (dataServiceContainer == null) {
             dataServiceContainer = new DataServiceContainer();
         }
         return dataServiceContainer;

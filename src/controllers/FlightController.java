@@ -11,23 +11,23 @@ import java.util.List;
 public class FlightController {
     private DataServiceContainer dataServiceContainer;
 
-    public FlightController(DataServiceContainer dataServiceContainer){
+    public FlightController(DataServiceContainer dataServiceContainer) {
         this.dataServiceContainer = dataServiceContainer;
     }
 
-    public boolean isFromCityValid(String string){
+    public boolean isFromCityValid(String string) {
         return dataServiceContainer.getCitiesService().cityFromExists(string);
     }
 
-    public boolean isToCityValid(String string){
+    public boolean isToCityValid(String string) {
         return dataServiceContainer.getCitiesService().cityToExists(string);
     }
 
-    public List<String> getAllFromCities(){
+    public List<String> getAllFromCities() {
         return dataServiceContainer.getCitiesService().allFromCities();
     }
 
-    public List<String> getAllToCities(){
+    public List<String> getAllToCities() {
         return dataServiceContainer.getCitiesService().allToCities();
     }
 

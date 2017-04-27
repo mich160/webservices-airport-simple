@@ -6,7 +6,7 @@ import java.util.TreeSet;
 public class AllowedMachinesRegistry {
     private Set<String> allowedIPs;
 
-    public AllowedMachinesRegistry(){
+    public AllowedMachinesRegistry() {
         allowedIPs = new TreeSet<>();
         allowedIPs.add("192.168.1.215");
         allowedIPs.add("127.0.0.1");

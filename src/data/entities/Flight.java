@@ -8,7 +8,7 @@ public class Flight {
     private String fromWhere;
     private String toWhere;
     private int seatsCount;
-    private double basePrice;
+    private long basePrice;
 
     public long getID() {
         return ID;
@@ -55,11 +55,11 @@ public class Flight {
         return this;
     }
 
-    public double getBasePrice() {
+    public long getBasePrice() {
         return basePrice;
     }
 
-    public Flight setBasePrice(double basePrice) {
+    public Flight setBasePrice(long basePrice) {
         this.basePrice = basePrice;
         return this;
     }

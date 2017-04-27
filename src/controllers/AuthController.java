@@ -34,16 +34,15 @@ public class AuthController {
         deleteExpiredSessions();
         UserService userService = dataServiceContainer.getUserService();
         User user = userService.getByLogin(login);
-        if(user != null && user.getPasswordHash().equals(passwordHash)){
+        if (user != null && user.getPasswordHash().equals(passwordHash)) {
             Session session = dataServiceContainer.getSessionService().getByUserID(user.getID());
-            if(session != null){
+            if (session != null) {
                 renewSession(session.getToken());
                 return session.getToken();
-            }
-            else {
+            } else {
                 session = new Session();
                 String sessionToken = UUID.randomUUID().toString();
-                while (dataServiceContainer.getSessionService().getByToken(sessionToken) != null){
+                while (dataServiceContainer.getSessionService().getByToken(sessionToken) != null) {
                     sessionToken = UUID.randomUUID().toString();
                 }
                 session.setUserID(user.getID())
@@ -52,8 +51,7 @@ public class AuthController {
                 dataServiceContainer.getSessionService().save(session);
                 return sessionToken;
             }
-        }
-        else {
+        } else {
             throw new BadCredentialsException();
         }
     }
@@ -61,7 +59,7 @@ public class AuthController {
     public void destroySession(String sessionToken) throws SQLException {
         deleteExpiredSessions();
         Session session = dataServiceContainer.getSessionService().getByToken(sessionToken);
-        if(session != null){
+        if (session != null) {
             dataServiceContainer.getSessionService().delete(session.getID());
         }
     }
@@ -69,7 +67,7 @@ public class AuthController {
     public void renewSession(String sessionToken) throws SQLException {
         deleteExpiredSessions();
         Session session = dataServiceContainer.getSessionService().getByToken(sessionToken);
-        if (session != null){
+        if (session != null) {
             session.setExpirationDateTime(LocalDateTime.now().plusSeconds(sessionLifespanInS));
             dataServiceContainer.getSessionService().update(session);
         }
@@ -85,9 +83,9 @@ public class AuthController {
         dataServiceContainer.getSessionService().deleteExpiredSessions();
     }
 
-    public void createUser(String login, String password, String name, String surname, LocalDate dateOfBirth, long phoneNumber) throws NoSuchAlgorithmException, SQLException, LoginAlreadyTaken { //TODO testy
-        if(dataServiceContainer.getUserService().getByLogin(login) == null){
-            if(this.passwordDigest == null){
+    public void createUser(String login, String password, String name, String surname, LocalDate dateOfBirth, long phoneNumber) throws NoSuchAlgorithmException, SQLException, LoginAlreadyTaken {
+        if (dataServiceContainer.getUserService().getByLogin(login) == null) {
+            if (this.passwordDigest == null) {
                 this.passwordDigest = MessageDigest.getInstance("SHA-256");
             }
             this.passwordDigest.update(password.getBytes());
@@ -100,28 +98,26 @@ public class AuthController {
                     .setPasswordHash(new String(this.passwordDigest.digest()));
             this.passwordDigest.reset();
             dataServiceContainer.getUserService().save(user);
-        }
-        else {
+        } else {
             throw new LoginAlreadyTaken(login);
         }
     }
 
     public void deleteUser(String login, String password) throws SQLException, NoSuchAlgorithmException, NoSuchUserException {
         User user = dataServiceContainer.getUserService().getByLogin(login);
-        if(this.passwordDigest == null){
+        if (this.passwordDigest == null) {
             this.passwordDigest = MessageDigest.getInstance("SHA-256");
         }
         this.passwordDigest.update(password.getBytes());
         String passwordHash = new String(this.passwordDigest.digest());
-        if (user != null && passwordHash.equals(user.getPasswordHash())){
+        if (user != null && passwordHash.equals(user.getPasswordHash())) {
             dataServiceContainer.getUserService().delete(user.getID());
-        }
-        else {
+        } else {
             throw new NoSuchUserException(login);
         }
     }
 
-    public boolean isIPAllowed(String ip){
+    public boolean isIPAllowed(String ip) {
         return allowedMachinesRegistry.isIPAllowed(ip);
     }
 

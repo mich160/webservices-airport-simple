@@ -1,6 +1,5 @@
 package data.access;
 
-import data.ConnectionFactory;
 import data.entities.Session;
 import data.sqliteUtils.DateTimeUtils;
 
@@ -64,7 +63,7 @@ public class SessionService implements Service<Long, Session> {
         deleteStatement.executeUpdate();
     }
 
-    public void deleteExpiredSessions() throws SQLException{
+    public void deleteExpiredSessions() throws SQLException {
         PreparedStatement deleteExpiredStatement = connection.prepareStatement(DELETE_EXPIRED_SESSIONS_SQL);
         deleteExpiredStatement.executeUpdate();
     }

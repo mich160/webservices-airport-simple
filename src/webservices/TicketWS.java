@@ -14,29 +14,29 @@ import java.util.List;
 public interface TicketWS {
 
     @WebMethod
-    boolean isTicketAvailable(long flightID);
+    boolean isTicketAvailable(long flightID, String sessionToken);
 
     @WebMethod
-    List<Integer> getSeatsTaken(long flightID);
+    List<Integer> getSeatsTaken(long flightID, String sessionToken);
 
     @WebMethod
-    int getAvailableSeatsCount(long flightID);
+    int getAvailableSeatsCount(long flightID, String sessionToken);
 
     @WebMethod
-    void bookTicket(long clientID, long flightID);
+    void bookTicket(long userID, long flightID, int seat, String flightClass, String sessionToken);
 
     @WebMethod
-    void cancelTicket(long ticketID);
+    void cancelTicket(long ticketID, String sessionToken);
 
     @WebMethod
-    List<Ticket> getTicketsForFlight(long flightID);
+    List<Ticket> getTicketsForFlight(long flightID, String sessionToken);
 
     @WebMethod
-    List<Ticket> getTicketsForClient(long clientID);
+    List<Ticket> getTicketsForClient(long userID, String sessionToken);
 
     @WebMethod
-    List<Ticket> getTicketsForClientAndFlight(long flightID, long clientID);
+    List<Ticket> getTicketsForUserAndFlight(long flightID, long clientID, String sessionToken);
 
     @WebMethod
-    byte[] getTicketConfirmation(long ticketID);
+    byte[] getTicketConfirmation(long ticketID, String sessionToken);
 }

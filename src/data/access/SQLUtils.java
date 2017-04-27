@@ -5,11 +5,10 @@ import java.sql.SQLException;
 
 public class SQLUtils {
     public static Long extractCreatedID(ResultSet keyResultSet, String entityName) throws SQLException {
-        if(keyResultSet.next()){
+        if (keyResultSet.next()) {
             return keyResultSet.getLong(1);
-        }
-        else {
-            throw new SQLException(entityName+" creating failed!");
+        } else {
+            throw new SQLException(entityName + " creating failed!");
         }
     }
 }

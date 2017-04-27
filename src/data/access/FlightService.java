@@ -1,6 +1,5 @@
 package data.access;
 
-import data.ConnectionFactory;
 import data.entities.Flight;
 import data.sqliteUtils.DateTimeUtils;
 
@@ -50,14 +49,14 @@ public class FlightService implements Service<Long, Flight> {
         ResultSet resultSet = getByDateStatement.executeQuery();
 
         List<Flight> result = new ArrayList<>();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             Flight flight = extractFlightData(resultSet);
             result.add(flight);
         }
         return result;
     }
 
-    public List<Flight> getAfterTime(String from, String to, LocalDateTime localDateTime) throws SQLException{
+    public List<Flight> getAfterTime(String from, String to, LocalDateTime localDateTime) throws SQLException {
         PreparedStatement getAfterDateTimeStatement = connection.prepareStatement(GET_AFTER_TIME_SQL);
         getAfterDateTimeStatement.setString(1, DateTimeUtils.JavaDateTimeToDatabaseDateTime(localDateTime));
         getAfterDateTimeStatement.setString(2, from);
@@ -65,7 +64,7 @@ public class FlightService implements Service<Long, Flight> {
         ResultSet resultSet = getAfterDateTimeStatement.executeQuery();
 
         List<Flight> result = new ArrayList<>();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             Flight flight = extractFlightData(resultSet);
             result.add(flight);
         }
@@ -80,7 +79,7 @@ public class FlightService implements Service<Long, Flight> {
         ResultSet resultSet = getXDaysAfterNowStatement.executeQuery();
 
         List<Flight> result = new ArrayList<>();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             Flight flight = extractFlightData(resultSet);
             result.add(flight);
         }
@@ -115,7 +114,7 @@ public class FlightService implements Service<Long, Flight> {
         updateStatement.setString(3, entity.getToWhere());
         updateStatement.setInt(4, entity.getSeatsCount());
         updateStatement.setLong(5, entity.getID());
-        updateStatement.setDouble(6, entity.getBasePrice());
+        updateStatement.setLong(6, entity.getBasePrice());
         updateStatement.executeUpdate();
     }
 
@@ -126,31 +125,31 @@ public class FlightService implements Service<Long, Flight> {
         saveStatement.setString(2, entity.getFromWhere());
         saveStatement.setString(3, entity.getToWhere());
         saveStatement.setInt(4, entity.getSeatsCount());
-        saveStatement.setDouble(5, entity.getBasePrice());
+        saveStatement.setLong(5, entity.getBasePrice());
         saveStatement.executeUpdate();
         return SQLUtils.extractCreatedID(saveStatement.getGeneratedKeys(), "Flight");
     }
 
-    public List<Integer> getSeatsTaken(long flightID) throws SQLException{
+    public List<Integer> getSeatsTaken(long flightID) throws SQLException {
         PreparedStatement getSeatsTakenStatement = connection.prepareStatement(GET_SEATS_TAKEN_SQL);
-        getSeatsTakenStatement.setLong(1,flightID);
+        getSeatsTakenStatement.setLong(1, flightID);
         ResultSet resultSet = getSeatsTakenStatement.executeQuery();
 
         List<Integer> result = new ArrayList<>();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             result.add(resultSet.getInt(1));
         }
         return result;
     }
 
-    private Flight extractFlightData(ResultSet resultSet) throws SQLException{
+    private Flight extractFlightData(ResultSet resultSet) throws SQLException {
         Flight result = new Flight();
         result.setID(resultSet.getLong(1))
                 .setStartDateTime(DateTimeUtils.databaseDateTimeToJavaDateTime(resultSet.getString(2)))
                 .setFromWhere(resultSet.getString(3))
                 .setToWhere(resultSet.getString(4))
                 .setSeatsCount(resultSet.getInt(5))
-                .setBasePrice(resultSet.getDouble(6));
+                .setBasePrice(resultSet.getLong(6));
         return result;
     }
 }

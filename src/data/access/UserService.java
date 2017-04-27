@@ -1,6 +1,5 @@
 package data.access;
 
-import data.ConnectionFactory;
 import data.entities.User;
 import data.sqliteUtils.DateTimeUtils;
 
@@ -63,7 +62,7 @@ public class UserService implements Service<Long, User> {
         return result;
     }
 
-    public User getByLogin(String login) throws SQLException{
+    public User getByLogin(String login) throws SQLException {
         PreparedStatement getByLoginStatement = connection.prepareStatement(GET_BY_LOGIN_SQL);
         getByLoginStatement.setString(1, login);
         ResultSet resultSet = getByLoginStatement.executeQuery();

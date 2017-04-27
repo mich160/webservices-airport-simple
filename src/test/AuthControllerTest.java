@@ -1,9 +1,9 @@
 package test;
 
-import controllers.AuthController;
 import auth.exceptions.BadCredentialsException;
 import auth.exceptions.LoginAlreadyTaken;
 import auth.exceptions.NoSuchUserException;
+import controllers.AuthController;
 import data.DataServiceContainer;
 import data.entities.User;
 import org.junit.jupiter.api.AfterAll;
@@ -19,7 +19,7 @@ public class AuthControllerTest {
     public static final String LOGIN = "kowal44", PASSWORD_HASH = "aqwwww1";
 
     @BeforeAll
-    static void init(){
+    static void init() {
         User user = new User();
         user.setName("Jan")
                 .setSurname("Kowalski")
@@ -33,8 +33,9 @@ public class AuthControllerTest {
             e.printStackTrace();
         }
     }
+
     @AfterAll
-    static void deInit(){
+    static void deInit() {
         try {
             User user = DataServiceContainer.getDataServiceContainer().getUserService().getByLogin(LOGIN);
             DataServiceContainer.getDataServiceContainer().getUserService().delete(user.getID());
@@ -42,8 +43,9 @@ public class AuthControllerTest {
             e.printStackTrace();
         }
     }
+
     @Test
-    void createSessionTest(){
+    void createSessionTest() {
         try {
             AuthController authController = new AuthController(DataServiceContainer.getDataServiceContainer());
             String token = authController.createSession(LOGIN, PASSWORD_HASH);
@@ -59,7 +61,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    void expireSessionTest(){
+    void expireSessionTest() {
         try {
             AuthController authController = new AuthController(DataServiceContainer.getDataServiceContainer());
             authController.setSessionLifespanInS(2);
@@ -73,7 +75,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    void createUserTest(){
+    void createUserTest() {
         try {
             AuthController authController = new AuthController(DataServiceContainer.getDataServiceContainer());
             authController.createUser("test1", "pass", "Grazyna", "Nowak", LocalDate.now(), 53533532);
@@ -93,14 +95,14 @@ public class AuthControllerTest {
     void createUserTestFail() throws NoSuchUserException {
         try {
             AuthController authController = new AuthController(DataServiceContainer.getDataServiceContainer());
-            Assertions.assertThrows(NoSuchUserException.class, ()->authController.deleteUser("none", "none"));
+            Assertions.assertThrows(NoSuchUserException.class, () -> authController.deleteUser("none", "none"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Test
-    void renewSessionTest(){
+    void renewSessionTest() {
         try {
             AuthController authController = new AuthController(DataServiceContainer.getDataServiceContainer());
             authController.setSessionLifespanInS(2);

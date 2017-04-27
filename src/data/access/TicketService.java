@@ -1,6 +1,5 @@
 package data.access;
 
-import data.ConnectionFactory;
 import data.entities.Ticket;
 
 import java.sql.Connection;
@@ -51,9 +50,9 @@ public class TicketService implements Service<Long, Ticket> {
         return result;
     }
 
-    public List<Ticket> getByUserID(long userID) throws SQLException{
+    public List<Ticket> getByUserID(long userID) throws SQLException {
         PreparedStatement getByUserIDStatement = connection.prepareStatement(GET_BY_USER_ID);
-        getByUserIDStatement.setLong(1,userID);
+        getByUserIDStatement.setLong(1, userID);
         ResultSet resultSet = getByUserIDStatement.executeQuery();
 
         List<Ticket> result = new ArrayList<>();
@@ -63,9 +62,9 @@ public class TicketService implements Service<Long, Ticket> {
         return result;
     }
 
-    public List<Ticket> getByFlightID(long flightID) throws SQLException{
+    public List<Ticket> getByFlightID(long flightID) throws SQLException {
         PreparedStatement getByFlightIDStatement = connection.prepareStatement(GET_BY_FLIGHT_ID);
-        getByFlightIDStatement.setLong(1,flightID);
+        getByFlightIDStatement.setLong(1, flightID);
         ResultSet resultSet = getByFlightIDStatement.executeQuery();
 
         List<Ticket> result = new ArrayList<>();
@@ -78,7 +77,7 @@ public class TicketService implements Service<Long, Ticket> {
     public List<Ticket> getByUserAndFlightID(long userID, long flightID) throws SQLException {
         PreparedStatement getByUserAndFlightIDStatement = connection.prepareStatement(GET_BY_FLIGHT_AND_USER_ID);
         getByUserAndFlightIDStatement.setLong(1, userID);
-        getByUserAndFlightIDStatement.setLong(2,flightID);
+        getByUserAndFlightIDStatement.setLong(2, flightID);
         ResultSet resultSet = getByUserAndFlightIDStatement.executeQuery();
 
         List<Ticket> result = new ArrayList<>();

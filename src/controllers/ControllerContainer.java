@@ -9,7 +9,7 @@ public class ControllerContainer {
     private static ControllerContainer controllerContainer;
 
     public static ControllerContainer getControllerContainer() throws DatabaseException {
-        if(controllerContainer == null){
+        if (controllerContainer == null) {
             controllerContainer = new ControllerContainer();
         }
         return controllerContainer;
