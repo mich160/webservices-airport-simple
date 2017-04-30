@@ -114,6 +114,7 @@ public class TicketService implements Service<Long, Ticket> {
         saveStatement.setLong(3, entity.getPrice());
         saveStatement.setString(4, entity.getFlightClass());
         saveStatement.setInt(5, entity.getSeat());
+        saveStatement.executeUpdate();
         return SQLUtils.extractCreatedID(saveStatement.getGeneratedKeys(), "Ticket");
     }
 
@@ -124,7 +125,7 @@ public class TicketService implements Service<Long, Ticket> {
                 .setUserID(resultSet.getLong(3))
                 .setPrice(resultSet.getLong(4))
                 .setFlightClass(resultSet.getString(5))
-                .setSeat(resultSet.getInt(5));
+                .setSeat(resultSet.getInt(6));
         return ticket;
     }
 }

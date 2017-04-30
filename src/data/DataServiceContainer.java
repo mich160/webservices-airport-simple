@@ -34,6 +34,8 @@ public class DataServiceContainer {
         ticketService = new TicketService(connection);
         userService = new UserService(connection);
         sessionService = new SessionService(connection);
+        citiesService = new CitiesService();
+        classesService = new FlightClassesService();
     }
 
     public FlightService getFlightService() {

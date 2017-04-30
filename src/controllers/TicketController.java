@@ -25,7 +25,7 @@ public class TicketController { //TODO unit tests
     }
 
     public boolean isTicketAvailable(long flightID) throws SQLException {
-        return getAvailableSeatsCount(flightID) > 0;
+        return getAvailableSeatsCount(flightID) > 0 && dataServiceContainer.getFlightService().getByID(flightID).getStartDateTime().isAfter(LocalDateTime.now());
     }
 
     public List<Integer> getSeatsTaken(long flightID) throws SQLException {

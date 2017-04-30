@@ -42,5 +42,4 @@ public class FlightController {
     public List<Flight> getFlightsAfterTime(String from, String to, LocalDateTime localDateTime) throws SQLException {
         return dataServiceContainer.getFlightService().getAfterTime(from, to, localDateTime);
     }
-
 }
