@@ -85,18 +85,13 @@ public class AuthController {
 
     public void createUser(String login, String password, String name, String surname, LocalDate dateOfBirth, long phoneNumber) throws NoSuchAlgorithmException, SQLException, LoginAlreadyTaken {
         if (dataServiceContainer.getUserService().getByLogin(login) == null) {
-            if (this.passwordDigest == null) {
-                this.passwordDigest = MessageDigest.getInstance("SHA-256");
-            }
-            this.passwordDigest.update(password.getBytes());
             User user = new User();
             user.setName(name)
                     .setSurname(surname)
                     .setLogin(login)
                     .setDateOfBirth(dateOfBirth)
                     .setPhoneNumber(phoneNumber)
-                    .setPasswordHash(new String(this.passwordDigest.digest()));
-            this.passwordDigest.reset();
+                    .setPasswordHash(getPasswordHash(password));
             dataServiceContainer.getUserService().save(user);
         } else {
             throw new LoginAlreadyTaken(login);
@@ -117,8 +112,22 @@ public class AuthController {
         }
     }
 
+    public String getPasswordHash(String password) throws NoSuchAlgorithmException {
+        if (this.passwordDigest == null) {
+            this.passwordDigest = MessageDigest.getInstance("SHA-256");
+        }
+        this.passwordDigest.update(password.getBytes());
+        String result = new String(this.passwordDigest.digest());
+        this.passwordDigest.reset();
+        return result;
+    }
+
     public boolean isIPAllowed(String ip) {
         return allowedMachinesRegistry.isIPAllowed(ip);
+    }
+
+    public boolean isLoginAvailable(String login) throws SQLException {
+        return dataServiceContainer.getUserService().getByLogin(login) != null;
     }
 
     public long getSessionLifespanInS() {

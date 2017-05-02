@@ -1,4 +1,4 @@
-package auth.exceptions;
+package webservices.exceptions;
 
 import data.entities.Ticket;
 

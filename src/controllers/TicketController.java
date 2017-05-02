@@ -1,8 +1,8 @@
 package controllers;
 
-import auth.exceptions.CancelingNotLongerPossibleException;
-import auth.exceptions.InvalidBookingException;
-import auth.exceptions.NoSuchFlightClassException;
+import webservices.exceptions.CancelingNotLongerPossibleException;
+import webservices.exceptions.InvalidBookingException;
+import webservices.exceptions.NoSuchFlightClassException;
 import data.DataServiceContainer;
 import data.entities.Flight;
 import data.entities.Ticket;
