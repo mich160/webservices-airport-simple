@@ -127,7 +127,7 @@ public class AuthController {
     }
 
     public boolean isLoginAvailable(String login) throws SQLException {
-        return dataServiceContainer.getUserService().getByLogin(login) != null;
+        return dataServiceContainer.getUserService().getByLogin(login) == null;
     }
 
     public long getSessionLifespanInS() {

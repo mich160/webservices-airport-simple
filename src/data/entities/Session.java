@@ -1,8 +1,9 @@
 package data.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Session {
+public class Session implements Serializable{
     private long ID;
     private String token;
     private long userID;

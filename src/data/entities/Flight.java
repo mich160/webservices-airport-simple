@@ -1,8 +1,9 @@
 package data.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Flight {
+public class Flight implements Serializable{
     private long ID;
     private LocalDateTime startDateTime;
     private String fromWhere;

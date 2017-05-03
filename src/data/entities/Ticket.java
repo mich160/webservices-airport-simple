@@ -1,6 +1,8 @@
 package data.entities;
 
-public class Ticket {
+import java.io.Serializable;
+
+public class Ticket implements Serializable{
     private long ID;
     private long flightID;
     private long userID;

@@ -9,6 +9,7 @@ import webservices.exceptions.InternalErrorException;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceContext;
@@ -18,7 +19,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-@WebService(endpointInterface = "webservices.TicketWS")
+@WebService(endpointInterface = "webservices.AuthenticationWS")
 public class AuthenticationWSImpl implements AuthenticationWS{
     @Resource
     private WebServiceContext webServiceContext;
@@ -63,7 +64,13 @@ public class AuthenticationWSImpl implements AuthenticationWS{
     }
 
     @Override
-    public void registerUser(String login, String password, String name, String surname, XMLGregorianCalendar dateOfBirth, long phoneNumber) throws LoginAlreadyTaken, InternalErrorException, DatabaseException {
+    public void registerUser(
+            @WebParam(name = "login") String login,
+            @WebParam(name = "password") String password,
+            @WebParam(name = "name") String name,
+            @WebParam(name = "surname") String surname,
+            @WebParam(name = "dateOfBirth") XMLGregorianCalendar dateOfBirth,
+            @WebParam(name = "phoneNumber") long phoneNumber) throws LoginAlreadyTaken, InternalErrorException, DatabaseException {
         try {
             controllerContainer.getAuthController().createUser(login, password, name, surname, CalendarUtils.xmlGregorianCalendarToLocalDate(dateOfBirth), phoneNumber);
         } catch (NoSuchAlgorithmException e) {
@@ -76,7 +83,7 @@ public class AuthenticationWSImpl implements AuthenticationWS{
     }
 
     @Override
-    public boolean isLoginAvailable(String login) throws DatabaseException {
+    public boolean isLoginAvailable(@WebParam(name = "login") String login) throws DatabaseException {
         try {
             return controllerContainer.getAuthController().isLoginAvailable(login);
         } catch (SQLException e) {
@@ -86,7 +93,7 @@ public class AuthenticationWSImpl implements AuthenticationWS{
     }
 
     @Override
-    public void logout(String sessionToken) throws DatabaseException {
+    public void logout(@WebParam(name = "sessionToken") String sessionToken) throws DatabaseException {
         try {
             controllerContainer.getAuthController().destroySession(sessionToken);
         } catch (SQLException e) {

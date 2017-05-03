@@ -69,8 +69,12 @@ public class TicketController { //TODO unit tests
         return dataServiceContainer.getTicketService().getByFlightID(flightID);
     }
 
-    public List<Ticket> getTicketsForUserAndFlight(long flightID, long clientID) throws SQLException {
-        return dataServiceContainer.getTicketService().getByUserAndFlightID(clientID, flightID);
+    public List<Ticket> getTicketsForUser(long userID) throws SQLException{
+        return dataServiceContainer.getTicketService().getByUserID(userID);
+    }
+
+    public List<Ticket> getTicketsForUserAndFlight(long flightID, long userID) throws SQLException {
+        return dataServiceContainer.getTicketService().getByUserAndFlightID(userID, flightID);
     }
 
     public byte[] getTicketConfirmation(long ticketID) throws SQLException, IOException {
