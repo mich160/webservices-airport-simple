@@ -36,22 +36,9 @@ public class AuthenticationWSImpl implements AuthenticationWS{
     }
 
     @Override
-    public String loginAndGetSessionToken() throws InternalErrorException, DatabaseException, BadCredentialsException {
-        MessageContext messageContext = webServiceContext.getMessageContext();
-        Map http_headers = (Map) messageContext.get(MessageContext.HTTP_REQUEST_HEADERS);
-        List userList = (List) http_headers.get("Username");
-        List passList = (List) http_headers.get("Password");
+    public String loginAndGetSessionToken(@WebParam(name = "username") String username,
+                                          @WebParam(name = "password") String password) throws InternalErrorException, DatabaseException, BadCredentialsException {
 
-        String username = "";
-        String password = "";
-
-        if(userList!=null){
-            username = userList.get(0).toString();
-        }
-
-        if(passList!=null){
-            password = passList.get(0).toString();
-        }
         try {
             return controllerContainer.getAuthController().createSession(username, controllerContainer.getAuthController().getPasswordHash(password));
         } catch (SQLException e) {
@@ -69,7 +56,7 @@ public class AuthenticationWSImpl implements AuthenticationWS{
             @WebParam(name = "password") String password,
             @WebParam(name = "name") String name,
             @WebParam(name = "surname") String surname,
-            @WebParam(name = "dateOfBirth") XMLGregorianCalendar dateOfBirth,
+            @WebParam(name = "dateOfBirth") XMLGregorianCalendar dateOfBirth, //todo zamienic na string
             @WebParam(name = "phoneNumber") long phoneNumber) throws LoginAlreadyTaken, InternalErrorException, DatabaseException {
         try {
             controllerContainer.getAuthController().createUser(login, password, name, surname, CalendarUtils.xmlGregorianCalendarToLocalDate(dateOfBirth), phoneNumber);

@@ -4,6 +4,7 @@ import data.entities.Ticket;
 import webservices.exceptions.*;
 
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.soap.MTOM;
@@ -16,29 +17,42 @@ import java.util.List;
 public interface TicketWS {
 
     @WebMethod
-    boolean isTicketAvailable(long flightID, String sessionToken) throws NotLoggedException, DatabaseException;
+    boolean isTicketAvailable(@WebParam(name = "flightID") long flightID,
+                              @WebParam(name = "sessionToken") String sessionToken) throws NotLoggedException, DatabaseException;
 
     @WebMethod
-    List<Integer> getSeatsTaken(long flightID, String sessionToken) throws NotLoggedException, DatabaseException;
+    List<Integer> getSeatsTaken(@WebParam(name = "flightID") long flightID,
+                                @WebParam(name = "sessionToken") String sessionToken) throws NotLoggedException, DatabaseException;
 
     @WebMethod
-    int getAvailableSeatsCount(long flightID, String sessionToken) throws DatabaseException, NotLoggedException;
+    int getAvailableSeatsCount(@WebParam(name = "flightID") long flightID,
+                               @WebParam(name = "sessionToken") String sessionToken) throws DatabaseException, NotLoggedException;
 
     @WebMethod
-    void bookTicket(long userID, long flightID, int seat, String flightClass, String sessionToken) throws NotLoggedException, DatabaseException, InvalidBookingException, NoSuchFlightClassException;
+    void bookTicket(@WebParam(name = "userID") long userID,
+                    @WebParam(name = "flightID") long flightID,
+                    @WebParam(name = "seat") int seat,
+                    @WebParam(name = "flightClass") String flightClass,
+                    @WebParam(name = "sessionToken") String sessionToken) throws NotLoggedException, DatabaseException, InvalidBookingException, NoSuchFlightClassException;
 
     @WebMethod
-    void cancelTicket(long ticketID, String sessionToken) throws CancelingNotLongerPossibleException, DatabaseException, NotLoggedException;
+    void cancelTicket(@WebParam(name = "ticketID") long ticketID,
+                      @WebParam(name = "sessionToken") String sessionToken) throws CancelingNotLongerPossibleException, DatabaseException, NotLoggedException;
 
     @WebMethod
-    List<Ticket> getTicketsForFlight(long flightID, String sessionToken) throws NotLoggedException, DatabaseException;
+    List<Ticket> getTicketsForFlight(@WebParam(name = "flightID") long flightID,
+                                     @WebParam(name = "sessionToken") String sessionToken) throws NotLoggedException, DatabaseException;
 
     @WebMethod
-    List<Ticket> getTicketsForClient(long userID, String sessionToken) throws NotLoggedException, DatabaseException;
+    List<Ticket> getTicketsForClient(@WebParam(name = "userID") long userID,
+                                     @WebParam(name = "sessionToken") String sessionToken) throws NotLoggedException, DatabaseException;
 
     @WebMethod
-    List<Ticket> getTicketsForUserAndFlight(long flightID, long clientID, String sessionToken) throws DatabaseException, NotLoggedException;
+    List<Ticket> getTicketsForUserAndFlight(@WebParam(name = "flightID") long flightID,
+                                            @WebParam(name = "userID") long userID,
+                                            @WebParam(name = "sessionToken") String sessionToken) throws DatabaseException, NotLoggedException;
 
     @WebMethod
-    byte[] getTicketConfirmation(long ticketID, String sessionToken) throws NotLoggedException, IOException, DatabaseException;
+    byte[] getTicketConfirmation(@WebParam(name = "ticketID") long ticketID,
+                                 @WebParam(name = "sessionToken") String sessionToken) throws NotLoggedException, IOException, DatabaseException;
 }

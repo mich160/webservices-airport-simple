@@ -7,6 +7,7 @@ import webservices.exceptions.DatabaseException;
 import webservices.exceptions.NotLoggedException;
 
 import javax.annotation.PostConstruct;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.sql.SQLException;
@@ -26,7 +27,7 @@ public class FlightWSImpl implements FlightWS{
     }
 
     @Override
-    public List<String> getAllFromCities(String authorizationToken) throws NotLoggedException, DatabaseException {
+    public List<String> getAllFromCities(@WebParam(name = "authorizationToken") String authorizationToken) throws NotLoggedException, DatabaseException {
         try {
             if(controllerContainer.getAuthController().isSessionValid(authorizationToken)){
                    return controllerContainer.getFlightController().getAllFromCities();
@@ -41,7 +42,7 @@ public class FlightWSImpl implements FlightWS{
     }
 
     @Override
-    public List<String> getAllToCities(String authorizationToken) throws NotLoggedException, DatabaseException {
+    public List<String> getAllToCities(@WebParam(name = "authorizationToken") String authorizationToken) throws NotLoggedException, DatabaseException {
         try {
             if(controllerContainer.getAuthController().isSessionValid(authorizationToken)){
                 return controllerContainer.getFlightController().getAllToCities();
@@ -56,7 +57,8 @@ public class FlightWSImpl implements FlightWS{
     }
 
     @Override
-    public List<Flight> getFlightsByDay(XMLGregorianCalendar date, String authorizationToken) throws DatabaseException, NotLoggedException {
+    public List<Flight> getFlightsByDay(@WebParam(name = "date") XMLGregorianCalendar date,
+                                        @WebParam(name = "authorizationToken") String authorizationToken) throws DatabaseException, NotLoggedException {
         try {
             if(controllerContainer.getAuthController().isSessionValid(authorizationToken)){
                 return controllerContainer.getFlightController().getFlightsByDay(CalendarUtils.xmlGregorianCalendarToLocalDate(date));
@@ -71,7 +73,10 @@ public class FlightWSImpl implements FlightWS{
     }
 
     @Override
-    public List<Flight> getFlightsFromToXDaysAheadAfterToday(String from, String to, int days, String authorizationToken) throws NotLoggedException, DatabaseException {
+    public List<Flight> getFlightsFromToXDaysAheadAfterToday(@WebParam(name = "from") String from,
+                                                             @WebParam(name = "to") String to,
+                                                             @WebParam(name = "days") int days,
+                                                             @WebParam(name = "authorizationToken") String authorizationToken) throws NotLoggedException, DatabaseException {
         try {
             if(controllerContainer.getAuthController().isSessionValid(authorizationToken)){
                 return controllerContainer.getFlightController().getFlightsFromToXDaysAheadAfterToday(from,to, days);
@@ -86,7 +91,10 @@ public class FlightWSImpl implements FlightWS{
     }
 
     @Override
-    public List<Flight> getFlightsAfterTime(String from, String to, XMLGregorianCalendar time, String authorizationToken) throws DatabaseException, NotLoggedException {
+    public List<Flight> getFlightsAfterTime(@WebParam(name = "from") String from,
+                                            @WebParam(name = "to") String to,
+                                            @WebParam(name = "time") XMLGregorianCalendar time,
+                                            @WebParam(name = "authorizationToken") String authorizationToken) throws DatabaseException, NotLoggedException {
         try {
             if(controllerContainer.getAuthController().isSessionValid(authorizationToken)){
                 return controllerContainer.getFlightController().getFlightsAfterTime(from, to, CalendarUtils.xmlGregorianCalendarToLocalDateTime(time));
