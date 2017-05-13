@@ -5,6 +5,7 @@ import data.entities.Ticket;
 import webservices.exceptions.*;
 
 import javax.annotation.PostConstruct;
+import javax.jws.HandlerChain;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @WebService(endpointInterface = "webservices.TicketWS")
+@HandlerChain(file = "handler-chain.xml")
 public class TicketWSImpl implements TicketWS {
     private ControllerContainer controllerContainer;
 
@@ -108,22 +110,6 @@ public class TicketWSImpl implements TicketWS {
     }
 
     @Override
-    public List<Ticket> getTicketsForFlight(@WebParam(name = "flightID") long flightID,
-                                            @WebParam(name = "sessionToken") String sessionToken) throws NotLoggedException, DatabaseException {
-        try {
-            if(controllerContainer.getAuthController().isSessionValid(sessionToken)){
-                return controllerContainer.getTicketController().getTicketsForFlight(flightID);
-            }
-            else {
-                throw new NotLoggedException();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new DatabaseException();
-        }
-    }
-
-    @Override
     public List<Ticket> getTicketsForClient(@WebParam(name = "userID") long userID,
                                             @WebParam(name = "sessionToken") String sessionToken) throws NotLoggedException, DatabaseException {
         try {
@@ -171,4 +157,6 @@ public class TicketWSImpl implements TicketWS {
             throw new DatabaseException();
         }
     }
+
+
 }

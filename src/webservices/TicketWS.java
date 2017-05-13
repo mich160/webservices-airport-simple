@@ -39,9 +39,6 @@ public interface TicketWS {
     void cancelTicket(@WebParam(name = "ticketID") long ticketID,
                       @WebParam(name = "sessionToken") String sessionToken) throws CancelingNotLongerPossibleException, DatabaseException, NotLoggedException;
 
-    @WebMethod
-    List<Ticket> getTicketsForFlight(@WebParam(name = "flightID") long flightID,
-                                     @WebParam(name = "sessionToken") String sessionToken) throws NotLoggedException, DatabaseException;
 
     @WebMethod
     List<Ticket> getTicketsForClient(@WebParam(name = "userID") long userID,

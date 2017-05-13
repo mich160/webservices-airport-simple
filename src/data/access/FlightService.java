@@ -45,7 +45,7 @@ public class FlightService implements Service<Long, Flight> {
 
     public List<Flight> getByDate(LocalDate localDate) throws SQLException {
         PreparedStatement getByDateStatement = connection.prepareStatement(GET_BY_DATE_SQL);
-        getByDateStatement.setString(1, DateTimeUtils.JavaDateToDatabaseDate(localDate));
+        getByDateStatement.setString(1, DateTimeUtils.JavaDateToStringDate(localDate));
         ResultSet resultSet = getByDateStatement.executeQuery();
 
         List<Flight> result = new ArrayList<>();
@@ -58,7 +58,7 @@ public class FlightService implements Service<Long, Flight> {
 
     public List<Flight> getAfterTime(String from, String to, LocalDateTime localDateTime) throws SQLException {
         PreparedStatement getAfterDateTimeStatement = connection.prepareStatement(GET_AFTER_TIME_SQL);
-        getAfterDateTimeStatement.setString(1, DateTimeUtils.JavaDateTimeToDatabaseDateTime(localDateTime));
+        getAfterDateTimeStatement.setString(1, DateTimeUtils.JavaDateTimeToStringDateTime(localDateTime));
         getAfterDateTimeStatement.setString(2, from);
         getAfterDateTimeStatement.setString(3, to);
         ResultSet resultSet = getAfterDateTimeStatement.executeQuery();
@@ -73,7 +73,7 @@ public class FlightService implements Service<Long, Flight> {
 
     public List<Flight> getXDaysAfterNow(String from, String to, int days) throws SQLException {
         PreparedStatement getXDaysAfterNowStatement = connection.prepareStatement(GET_X_DAYS_FROM_NOW_SQL);
-        getXDaysAfterNowStatement.setString(1, DateTimeUtils.JavaDateTimeToDatabaseDateTime(LocalDateTime.now().plusDays(days)));
+        getXDaysAfterNowStatement.setString(1, DateTimeUtils.JavaDateTimeToStringDateTime(LocalDateTime.now().plusDays(days)));
         getXDaysAfterNowStatement.setString(2, from);
         getXDaysAfterNowStatement.setString(3, to);
         ResultSet resultSet = getXDaysAfterNowStatement.executeQuery();
@@ -109,7 +109,7 @@ public class FlightService implements Service<Long, Flight> {
     @Override
     public void update(Flight entity) throws SQLException {
         PreparedStatement updateStatement = connection.prepareStatement(UPDATE_SQL);
-        updateStatement.setString(1, DateTimeUtils.JavaDateTimeToDatabaseDateTime(entity.getStartDateTime()));
+        updateStatement.setString(1, DateTimeUtils.JavaDateTimeToStringDateTime(entity.getStartDateTime()));
         updateStatement.setString(2, entity.getFromWhere());
         updateStatement.setString(3, entity.getToWhere());
         updateStatement.setInt(4, entity.getSeatsCount());
@@ -121,7 +121,7 @@ public class FlightService implements Service<Long, Flight> {
     @Override
     public Long save(Flight entity) throws SQLException {
         PreparedStatement saveStatement = connection.prepareStatement(SAVE_SQL);
-        saveStatement.setString(1, DateTimeUtils.JavaDateTimeToDatabaseDateTime(entity.getStartDateTime()));
+        saveStatement.setString(1, DateTimeUtils.JavaDateTimeToStringDateTime(entity.getStartDateTime()));
         saveStatement.setString(2, entity.getFromWhere());
         saveStatement.setString(3, entity.getToWhere());
         saveStatement.setInt(4, entity.getSeatsCount());
@@ -145,7 +145,7 @@ public class FlightService implements Service<Long, Flight> {
     private Flight extractFlightData(ResultSet resultSet) throws SQLException {
         Flight result = new Flight();
         result.setID(resultSet.getLong(1))
-                .setStartDateTime(DateTimeUtils.databaseDateTimeToJavaDateTime(resultSet.getString(2)))
+                .setStartDateTime(DateTimeUtils.stringDateTimeToJavaDateTime(resultSet.getString(2)))
                 .setFromWhere(resultSet.getString(3))
                 .setToWhere(resultSet.getString(4))
                 .setSeatsCount(resultSet.getInt(5))

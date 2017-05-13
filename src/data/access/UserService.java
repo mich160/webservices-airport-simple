@@ -32,7 +32,7 @@ public class UserService implements Service<Long, User> {
             user.setID(resultSet.getLong(1))
                     .setName(resultSet.getString(2))
                     .setSurname(resultSet.getString(3))
-                    .setDateOfBirth(DateTimeUtils.databaseDateToJavaDate(resultSet.getString(4)))
+                    .setDateOfBirth(DateTimeUtils.stringDateToJavaDate(resultSet.getString(4)))
                     .setPhoneNumber(resultSet.getLong(5))
                     .setLogin(resultSet.getString(6))
                     .setPasswordHash(resultSet.getString(7));
@@ -54,7 +54,7 @@ public class UserService implements Service<Long, User> {
             result.setID(resultSet.getLong(1))
                     .setName(resultSet.getString(2))
                     .setSurname(resultSet.getString(3))
-                    .setDateOfBirth(DateTimeUtils.databaseDateToJavaDate(resultSet.getString(4)))
+                    .setDateOfBirth(DateTimeUtils.stringDateToJavaDate(resultSet.getString(4)))
                     .setPhoneNumber(resultSet.getLong(5))
                     .setLogin(resultSet.getString(6))
                     .setPasswordHash(resultSet.getString(7));
@@ -73,7 +73,7 @@ public class UserService implements Service<Long, User> {
             result.setID(resultSet.getLong(1))
                     .setName(resultSet.getString(2))
                     .setSurname(resultSet.getString(3))
-                    .setDateOfBirth(DateTimeUtils.databaseDateToJavaDate(resultSet.getString(4)))
+                    .setDateOfBirth(DateTimeUtils.stringDateToJavaDate(resultSet.getString(4)))
                     .setPhoneNumber(resultSet.getLong(5))
                     .setLogin(resultSet.getString(6))
                     .setPasswordHash(resultSet.getString(7));
@@ -93,7 +93,7 @@ public class UserService implements Service<Long, User> {
         PreparedStatement updateStatement = connection.prepareStatement(UPDATE_SQL);
         updateStatement.setString(1, entity.getName());
         updateStatement.setString(2, entity.getSurname());
-        updateStatement.setString(3, DateTimeUtils.JavaDateToDatabaseDate(entity.getDateOfBirth()));
+        updateStatement.setString(3, DateTimeUtils.JavaDateToStringDate(entity.getDateOfBirth()));
         updateStatement.setLong(4, entity.getPhoneNumber());
         updateStatement.setString(5, entity.getLogin());
         updateStatement.setString(6, entity.getPasswordHash());
@@ -106,7 +106,7 @@ public class UserService implements Service<Long, User> {
         PreparedStatement saveStatement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS);
         saveStatement.setString(1, entity.getName());
         saveStatement.setString(2, entity.getSurname());
-        saveStatement.setString(3, DateTimeUtils.JavaDateToDatabaseDate(entity.getDateOfBirth()));
+        saveStatement.setString(3, DateTimeUtils.JavaDateToStringDate(entity.getDateOfBirth()));
         saveStatement.setLong(4, entity.getPhoneNumber());
         saveStatement.setString(5, entity.getLogin());
         saveStatement.setString(6, entity.getPasswordHash());

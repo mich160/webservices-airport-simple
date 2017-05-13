@@ -73,7 +73,7 @@ public class SessionService implements Service<Long, Session> {
         PreparedStatement updateStatement = connection.prepareStatement(UPDATE_SQL);
         updateStatement.setString(1, entity.getToken());
         updateStatement.setLong(2, entity.getUserID());
-        updateStatement.setString(3, DateTimeUtils.JavaDateTimeToDatabaseDateTime(entity.getExpirationDateTime()));
+        updateStatement.setString(3, DateTimeUtils.JavaDateTimeToStringDateTime(entity.getExpirationDateTime()));
         updateStatement.setLong(4, entity.getID());
         updateStatement.executeUpdate();
     }
@@ -83,7 +83,7 @@ public class SessionService implements Service<Long, Session> {
         PreparedStatement saveStatement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS);
         saveStatement.setString(1, entity.getToken());
         saveStatement.setLong(2, entity.getUserID());
-        saveStatement.setString(3, DateTimeUtils.JavaDateTimeToDatabaseDateTime(entity.getExpirationDateTime()));
+        saveStatement.setString(3, DateTimeUtils.JavaDateTimeToStringDateTime(entity.getExpirationDateTime()));
         saveStatement.executeUpdate();
         return SQLUtils.extractCreatedID(saveStatement.getGeneratedKeys(), "Session");
     }
@@ -93,7 +93,7 @@ public class SessionService implements Service<Long, Session> {
         session.setID(resultSet.getLong(1))
                 .setToken(resultSet.getString(2))
                 .setUserID(resultSet.getLong(3))
-                .setExpirationDateTime(DateTimeUtils.databaseDateTimeToJavaDateTime(resultSet.getString(4)));
+                .setExpirationDateTime(DateTimeUtils.stringDateTimeToJavaDateTime(resultSet.getString(4)));
         return session;
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 public class InitDB {
-    public static final int FLIGHT_COUNT = 1000;
+    public static final int FLIGHT_COUNT = 10;
     public static void main(String[] args) {
         try {
             DataServiceContainer serviceContainer = DataServiceContainer.getDataServiceContainer();

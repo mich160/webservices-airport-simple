@@ -42,4 +42,13 @@ public class FlightController {
     public List<Flight> getFlightsAfterTime(String from, String to, LocalDateTime localDateTime) throws SQLException {
         return dataServiceContainer.getFlightService().getAfterTime(from, to, localDateTime);
     }
+
+    public long getFlightPrice(long flightID, String flightClass) throws SQLException {
+        Flight flight = dataServiceContainer.getFlightService().getByID(flightID);
+        return (long) Math.ceil(flight.getBasePrice() * dataServiceContainer.getClassesService().getPriceRate(flightClass));
+    }
+
+    public Flight getFlight(long flightID) throws SQLException {
+        return dataServiceContainer.getFlightService().getByID(flightID);
+    }
 }

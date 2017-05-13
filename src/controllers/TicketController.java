@@ -80,13 +80,17 @@ public class TicketController { //TODO unit tests
     public byte[] getTicketConfirmation(long ticketID) throws SQLException, IOException {
         Ticket ticket = dataServiceContainer.getTicketService().getByID(ticketID);
         User user = dataServiceContainer.getUserService().getByID(ticket.getUserID());
-        Flight flight = dataServiceContainer.getFlightService().getByID(ticket.getUserID());
+        Flight flight = dataServiceContainer.getFlightService().getByID(ticket.getFlightID());
 
         PDDocument result = TicketPDFConfirmationFactory.getTicketConfirmation(user, ticket, flight);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         result.save(outputStream);
         result.close();
         return outputStream.toByteArray();
+    }
+
+    public List<String> getFlightClasses(){
+        return dataServiceContainer.getClassesService().getAllFlightClasses();
     }
 
 }

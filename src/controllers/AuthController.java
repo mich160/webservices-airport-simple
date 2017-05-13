@@ -8,6 +8,7 @@ import data.DataServiceContainer;
 import data.access.UserService;
 import data.entities.Session;
 import data.entities.User;
+import webservices.exceptions.NotLoggedException;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -95,6 +96,16 @@ public class AuthController {
             dataServiceContainer.getUserService().save(user);
         } else {
             throw new LoginAlreadyTaken(login);
+        }
+    }
+
+    public User getUserBySession(String sessionToken) throws SQLException, NotLoggedException {
+        Session session = dataServiceContainer.getSessionService().getByToken(sessionToken);
+        if(session != null){
+            return dataServiceContainer.getUserService().getByID(session.getUserID());
+        }
+        else {
+            throw new NotLoggedException();
         }
     }
 

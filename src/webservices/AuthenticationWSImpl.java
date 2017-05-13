@@ -3,23 +3,23 @@ package webservices;
 import auth.exceptions.BadCredentialsException;
 import auth.exceptions.LoginAlreadyTaken;
 import controllers.ControllerContainer;
-import utils.CalendarUtils;
+import data.entities.xml.xmlUser;
+import data.sqliteUtils.DateTimeUtils;
 import webservices.exceptions.DatabaseException;
 import webservices.exceptions.InternalErrorException;
+import webservices.exceptions.NotLoggedException;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.jws.HandlerChain;
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 
 @WebService(endpointInterface = "webservices.AuthenticationWS")
+@HandlerChain(file = "handler-chain.xml")
 public class AuthenticationWSImpl implements AuthenticationWS{
     @Resource
     private WebServiceContext webServiceContext;
@@ -56,13 +56,23 @@ public class AuthenticationWSImpl implements AuthenticationWS{
             @WebParam(name = "password") String password,
             @WebParam(name = "name") String name,
             @WebParam(name = "surname") String surname,
-            @WebParam(name = "dateOfBirth") XMLGregorianCalendar dateOfBirth, //todo zamienic na string
+            @WebParam(name = "dateOfBirth") String dateOfBirth,
             @WebParam(name = "phoneNumber") long phoneNumber) throws LoginAlreadyTaken, InternalErrorException, DatabaseException {
         try {
-            controllerContainer.getAuthController().createUser(login, password, name, surname, CalendarUtils.xmlGregorianCalendarToLocalDate(dateOfBirth), phoneNumber);
+            controllerContainer.getAuthController().createUser(login, password, name, surname, DateTimeUtils.stringDateToJavaDate(dateOfBirth), phoneNumber);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             throw new InternalErrorException(e);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DatabaseException();
+        }
+    }
+
+    @Override
+    public xmlUser getCurrentUser(@WebParam(name = "sessionToken") String sessionToken) throws DatabaseException, NotLoggedException {
+        try {
+            return new xmlUser(controllerContainer.getAuthController().getUserBySession(sessionToken));
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DatabaseException();
